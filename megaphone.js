@@ -37,37 +37,40 @@ const programs =     [{
 // }
 let parseRSS = (program) => {
     return new Promise((resolve, reject) => {
+        let dataToAdd = [];
         request({
             'method': 'GET',
             'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes`,
             'headers': {
                 'Token': `token="${process.env.TOKEN}"`,
-                // 'podcast_id': 'acee2874-d42e-11eb-b8c4-63db778ddb9e',
                 'Authorization': `Bearer ${process.env.TOKEN}`
-              }
-            }, function (error, response) {
+            }
+        }, function (error, response) {
             if (error) throw new Error(error);
-            console.log(response.body);
-            resolve(response.body)
+            // console.log(response.body);
+            // var data = JSON.stringify(response.body)
+            // var data = JSON.parse(data);
+            function myfunc(data) {
+                for (var i in data) {
+                    dataToAdd.push(data[i].title 
+                           );
+                }
+                console.log(dataToAdd)
+                resolve(dataToAdd);
+            }
+            // episodes.items.forEach(item => {
+            //     if (item.hasOwnProperty('enclosure')) {
+            //         var obj = createRecord(program, item);
+            //         // var obj2 = obj.getUri();
+            //         // obj.uri_path = obj2[1];
+            //         // delete obj.getUri;
+            //         dataToAdd.push(obj)
+            //     }
+            //     resolve(dataToAdd);
+            // });
+            myfunc(response.body);
         });
-
-    //     parser.parseprogram(program.feed, (err, feed) => {
-    //         if (err) {
-    //             reject(err);
-    //         } else if (feed.title = program.program) {
-    //             feed.items.forEach(item => {
-    //                 if (item.hasOwnProperty('enclosure')) {
-    //                     var obj = createRecord(program, item);
-    //                     // var obj2 = obj.getUri();
-    //                     // obj.uri_path = obj2[1];
-    //                     // delete obj.getUri;
-    //                     dataToAdd.push(obj)
-    //                 }
-    //                 resolve(dataToAdd);
-    //             });
-    //         }
-    //     });
-    })
+    });
 }
    let dataArray = [];
    programs.forEach(async (program) => {
