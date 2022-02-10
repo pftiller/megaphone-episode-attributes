@@ -1,0 +1,27 @@
+{
+  "name": "megaphone-episode-attributes",
+  "version": "1.0.0",
+  "description": "An application that retrieves episode attributes from the Megaphone API.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pftiller/megaphone-episode-attributes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pftiller/megaphone-episode-attributes/issues"
+  },
+  "homepage": "https://github.com/pftiller/megaphone-episode-attributes#readme",
+  "dependencies": {
+    "@google-cloud/bigquery": "^5.10.0",
+    "axios": "^0.25.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "request": "^2.88.2"
+  }
+}
