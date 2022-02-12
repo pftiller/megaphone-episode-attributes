@@ -1,8 +1,7 @@
 require('dotenv').config();
-// let Parser = require('rss-parser');
+let moment = require('moment');
 var request = require('request');
 const {BigQuery} = require('@google-cloud/bigquery');
-// let parser = new Parser();
 const programs =     [{
     "name": "Forever Ago",
     "megaphone_id": "a741f206-04ea-11ec-9d4c-179e2e0aa82b"
@@ -38,6 +37,29 @@ const programs =     [{
 let parseRSS = (program) => {
     return new Promise((resolve, reject) => {
         let dataToAdd = [];
+        function createRecord(item) {
+            return {
+                "id": item.id,
+                "title": item.title,
+                "pubdate": moment(item.pubdate).format('YYYY-MM-DD'),
+                "episodeType": item.episodeType,
+                "seasonNumber": item.seasonNumber,
+                "episodeNumber": item.episodeNumber,
+                "summary": item.summary,
+                "duration": item.duration,
+                "uid": item.uid,
+                "podcastId": item.podcastId,
+                "preCount": item.preCount,
+                "postCount": item.postCount,
+                "pubdateTimezone": item.pubdateTimezone,
+                "originalFilename": item.originalFilename,
+                "draft": item.draft,
+                "podcastTitle": item.podcastTitle,
+                "podcastItunesCategories": item.podcastItunesCategories,
+                "mainFeed": item.mainFeed,
+                "adFree": item.adFree
+            }
+        }
         request({
             'method': 'GET',
             'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes`,
@@ -46,36 +68,39 @@ let parseRSS = (program) => {
                 'Authorization': `Bearer ${process.env.TOKEN}`
             }
         }, function (error, response) {
-            if (error) throw new Error(error);
+            if (error) {
+                reject(error)
+            }
+            else {
+                var episodes = JSON.parse(response.body);
+                    for (var i in episodes) {
+                        var obj = createRecord(episodes[i]);
+                        dataToAdd.push(obj)
+                    }
+                        
+                };
+                resolve(dataToAdd);
+            });
             // console.log(response.body);
             // var data = JSON.stringify(response.body)
             // var data = JSON.parse(data);
-            function myfunc(data) {
-                for (var i in data) {
-                    dataToAdd.push(data[i].title 
-                           );
-                }
-                console.log(dataToAdd)
-                resolve(dataToAdd);
-            }
-            // episodes.items.forEach(item => {
-            //     if (item.hasOwnProperty('enclosure')) {
-            //         var obj = createRecord(program, item);
-            //         // var obj2 = obj.getUri();
-            //         // obj.uri_path = obj2[1];
-            //         // delete obj.getUri;
-            //         dataToAdd.push(obj)
+            // function myfunc(data) {
+            //     for (var i in data) {
+            //         dataToAdd.push(data[i].title 
+            //                );
             //     }
+            //     console.log(dataToAdd)
             //     resolve(dataToAdd);
-            // });
-            myfunc(response.body);
+            // }
+            
+           
         });
-    });
+    
 }
    let dataArray = [];
    programs.forEach(async (program) => {
-       let feed = parseRSS(program)
-       dataArray.push(feed);
+       let episode = parseRSS(program)
+       dataArray.push(episode);
    })
     module.exports = (() => {
         Promise.all(dataArray).then((data) => {
