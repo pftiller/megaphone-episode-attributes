@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const parseRss = require('./megaphone');
+const fetchEpisodes = require('./megaphone');
 
 
 const PORT = process.env.PORT || 3001;
 
-parseRss();
+fetchEpisodes();
 
 app.listen(PORT, (error) => {
       console.log("listening on " + PORT + "...");
