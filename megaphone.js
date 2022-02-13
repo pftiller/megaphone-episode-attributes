@@ -107,15 +107,15 @@ async function insertRowsAsStream(param) {
     console.log(`Inserted ${rows.length} rows`);
     return 'Ok';
 }
-// let removeDups = async () => {
-//     let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT Episode, uri_path, Program, Title FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY Program, Episode, uri_path) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
-//     const options = {
-//         query: sqlQuery,
-//         location: 'US'
-//     };
-//     const [rows] = await bigquery.query(options);
-//     console.log(`Table is now ${rows.length} rows`);
-// }
+let removeDups = async () => {
+    let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, podcastItunesCategories, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
+    const options = {
+        query: sqlQuery,
+        location: 'US'
+    };
+    const [rows] = await bigquery.query(options);
+    console.log(`Table is now ${rows.length} rows`);
+}
 let getEpisodes = (program) => {
     return new Promise((resolve, reject) => {
         let dataToAdd = [];
@@ -145,7 +145,7 @@ let getEpisodes = (program) => {
         }
         request({
             'method': 'GET',
-            'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes`,
+            'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes?draft=false`,
             'headers': {
                 'Token': `token="${process.env.TOKEN}"`,
                 'Authorization': `Bearer ${process.env.TOKEN}`
@@ -175,21 +175,21 @@ programs.forEach(async (program) => {
 module.exports = (() => {
     Promise.all(dataArray).then((data) => {
         data.forEach((datae) => {
-            if (datae.draft != true) {
+            // if (datae.draft != true) {
                 insertRowsAsStream(datae).then((res) => {
                     if (res = 'Ok') {
-                        // removeDups()
-                        //     .then(() => {
+                        removeDups()
+                            .then(() => {
                                 console.log('did it');
-                            // })
-                            // .catch(e => {
-                            //     console.log(e)
-                            // })
+                            })
+                            .catch(e => {
+                                console.log(e)
+                            })
                     }
                 }).catch((err) => {
                     console.log(err);
                 })
-            }
+            // }
         })
     })
 })
