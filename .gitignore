@@ -1,2 +1,16 @@
-node_modules/
+# dependencies
+/node_modules
+/vendor
+
+# misc
+.DS_Store
+npm-debug.log*
+
+#linter 
+.stylelintrc.json
+
+#environment
+.vscode
+
+#variable
 .env

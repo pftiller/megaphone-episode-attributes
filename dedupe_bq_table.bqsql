@@ -1,0 +1,30 @@
+CREATE OR REPLACE TABLE
+  apmg-data-warehouse.apm_podcasts.megaphone_episode_attributes AS
+SELECT
+  id,
+  title,
+  pubdate,
+  episodeType,
+  seasonNumber,
+  episodeNumber,
+  summary,
+  duration,
+  uid,
+  podcastId,
+  preCount,
+  postCount,
+  pubdateTimezone,
+  originalFilename,
+  draft,
+  podcastTitle,
+  podcastItunesCategories,
+  mainFeed,
+  adFree
+FROM (
+  SELECT
+    *,
+    ROW_NUMBER() OVER (PARTITION BY podcastId, id) row_number
+  FROM
+    apmg-data-warehouse.apm_podcasts.megaphone_episode_attributes )
+WHERE
+  row_number = 1
