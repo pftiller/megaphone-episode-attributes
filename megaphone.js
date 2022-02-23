@@ -60,6 +60,14 @@ const programs = [
       "megaphone_id": "2192513e-2856-11ec-954b-7b9363df6c97"
     },
     {
+      "name": "In Deep",
+      "megaphone_id": "1180160e-3bfd-11ec-abad-27e0f31930b3"
+    },
+    {
+      "name": "The One Recipe",
+      "megaphone_id": "3057d2f8-7256-11ec-9bdc-b3e1f05dd842"
+    },
+    {
       "name": "Smash Boom Best",
       "megaphone_id": "d47b0476-d8ec-11eb-a5a6-eb7d03078ea5"
     },
