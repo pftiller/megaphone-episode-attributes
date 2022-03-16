@@ -96,8 +96,12 @@ const programs = [
       "megaphone_id": "e655f61a-d8ec-11eb-a5a6-b31d48af82bf"
     },
     {
-      "name": "This Is Uncomfortable",
-      "megaphone_id": "e9e60248-d8ec-11eb-8716-27ff4700152c"
+      "name": "Sent Away",
+      "megaphone_id": "cefe1d76-3bfc-11ec-a0c9-1b3c5a41e210"
+    },
+    {
+      "name": "The Antidote",
+      "megaphone_id": "13c35864-3904-11ec-ae8c-f3441c60593e"
     }
   ];
 const projectId = `apmg-data-warehouse`;
