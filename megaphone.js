@@ -102,6 +102,10 @@ const programs = [
     {
       "name": "The Antidote",
       "megaphone_id": "13c35864-3904-11ec-ae8c-f3441c60593e"
+    },
+    {
+      "name": "YourClassical Storytime",
+      "megaphone_id": "9284cf58-a6f4-11ec-9738-b757d0ec2a87"
     }
   ];
 const projectId = `apmg-data-warehouse`;
