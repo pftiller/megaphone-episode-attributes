@@ -106,6 +106,10 @@ const programs = [
     {
       "name": "YourClassical Storytime",
       "megaphone_id": "9284cf58-a6f4-11ec-9738-b757d0ec2a87"
+    },
+    {
+      "name": "Mood Ring",
+      "megaphone_id": "fc258cf4-3903-11ec-bd8d-3f89c2c3a5ca"
     }
   ];
 const projectId = `apmg-data-warehouse`;
