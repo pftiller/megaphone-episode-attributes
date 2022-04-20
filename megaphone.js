@@ -36,7 +36,7 @@ const programs = [
       "megaphone_id": "ba47cec2-d8ec-11eb-bda0-8b1c5a25968a"
     },
     {
-      "name": "Make Me Smart with Kai and Molly",
+      "name": "Make Me Smart",
       "megaphone_id": "be89f6e0-d8ec-11eb-b321-c335a536ec66"
     },
     {
