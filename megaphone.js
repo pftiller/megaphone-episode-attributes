@@ -110,6 +110,10 @@ const programs = [
     {
       "name": "Mood Ring",
       "megaphone_id": "fc258cf4-3903-11ec-bd8d-3f89c2c3a5ca"
+    },
+    {
+      "name": "This Is Uncomfortable",
+      "megaphone_id": "e9e60248-d8ec-11eb-8716-27ff4700152c"
     }
   ];
 const projectId = `apmg-data-warehouse`;
@@ -128,7 +132,7 @@ async function insertRowsAsStream(param) {
     return 'Ok';
 }
 let removeDups = async () => {
-    let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, podcastItunesCategories, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
+    let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
     const options = {
         query: sqlQuery,
         location: 'US'
@@ -158,7 +162,6 @@ let getEpisodes = (program) => {
                 "originalFilename": item.originalFilename,
                 "draft": item.draft,
                 "podcastTitle": item.podcastTitle,
-                "podcastItunesCategories": item.podcastItunesCategories,
                 "mainFeed": item.mainFeed,
                 "adFree": item.adFree
             }
