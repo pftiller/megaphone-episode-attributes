@@ -112,8 +112,12 @@ const programs = [
       "megaphone_id": "fc258cf4-3903-11ec-bd8d-3f89c2c3a5ca"
     },
     {
-      "name": "This Is Uncomfortable",
-      "megaphone_id": "e9e60248-d8ec-11eb-8716-27ff4700152c"
+      "name": "Marketplace Minute",
+      "megaphone_id": "761ff71c-9395-11ea-a7fd-2f9b30216283"
+    },
+    {
+      "name": "Marketplace Minute News Briefing",
+      "megaphone_id": "bd5ed85a-9395-11ea-9e25-9b7bcc6a824a"
     }
   ];
 const projectId = `apmg-data-warehouse`;
