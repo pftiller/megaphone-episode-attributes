@@ -52,10 +52,6 @@ const programs = [
       "megaphone_id": "c95d2948-d8ec-11eb-bfab-87156cf77488"
     },
     {
-      "name": "Million Bazillion",
-      "megaphone_id": "d07a7208-d8ec-11eb-8fa6-a3366b4257db"
-    },
-    {
       "name": "Moment of Um",
       "megaphone_id": "2192513e-2856-11ec-954b-7b9363df6c97"
     },
@@ -78,10 +74,6 @@ const programs = [
     {
       "name": "TBTL- Too Beautiful to Live",
       "megaphone_id": "ecd859f6-d8ec-11eb-9594-afe14f723909"
-    },
-    {
-      "name": "Terrible, Thanks For Asking",
-      "megaphone_id": "dbf82b0c-d8ec-11eb-a8a4-57ab97704e15"
     },
     {
       "name": "The Slowdown",
@@ -135,15 +127,15 @@ async function insertRowsAsStream(param) {
     console.log(`Inserted ${rows.length} rows`);
     return 'Ok';
 }
-let removeDups = async () => {
-    let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
-    const options = {
-        query: sqlQuery,
-        location: 'US'
-    };
-    const [rows] = await bigquery.query(options);
-    console.log(`Table is now ${rows.length} rows`);
-}
+// let removeDups = async () => {
+//     let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
+//     const options = {
+//         query: sqlQuery,
+//         location: 'US'
+//     };
+//     const [rows] = await bigquery.query(options);
+//     console.log(`Table is now ${rows.length} rows`);
+// }
 let getEpisodes = (program) => {
     return new Promise((resolve, reject) => {
         let dataToAdd = [];
@@ -172,7 +164,7 @@ let getEpisodes = (program) => {
         }
         request({
             'method': 'GET',
-            'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes?draft=false`,
+            'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes?draft=false&per_page=500`,
             'headers': {
                 'Token': `token="${process.env.TOKEN}"`,
                 'Authorization': `Bearer ${process.env.TOKEN}`
@@ -205,13 +197,13 @@ module.exports = (() => {
             // if (datae.draft != true) {
                 insertRowsAsStream(datae).then((res) => {
                     if (res = 'Ok') {
-                        removeDups()
-                            .then(() => {
+                        // removeDups()
+                        //     .then(() => {
                                 console.log('did it');
-                            })
-                            .catch(e => {
-                                console.log(e)
-                            })
+                            // })
+                            // .catch(e => {
+                            //     console.log(e)
+                            // })
                     }
                 }).catch((err) => {
                     console.log(err);
