@@ -17,7 +17,6 @@ SELECT
   originalFilename,
   draft,
   podcastTitle,
-  podcastItunesCategories,
   mainFeed,
   adFree
 FROM (

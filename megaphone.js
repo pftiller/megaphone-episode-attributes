@@ -194,21 +194,21 @@ programs.forEach(async (program) => {
 module.exports = (() => {
     Promise.all(dataArray).then((data) => {
         data.forEach((datae) => {
-            // if (datae.draft != true) {
+            if (datae.draft != true) {
                 insertRowsAsStream(datae).then((res) => {
                     if (res = 'Ok') {
-                        // removeDups()
-                        //     .then(() => {
+                        removeDups()
+                            .then(() => {
                                 console.log('did it');
-                            // })
-                            // .catch(e => {
-                            //     console.log(e)
-                            // })
+                            })
+                            .catch(e => {
+                                console.log(e)
+                            })
                     }
                 }).catch((err) => {
                     console.log(err);
                 })
-            // }
+            }
         })
     })
 })
