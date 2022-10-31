@@ -110,6 +110,10 @@ const programs = [
     {
       "name": "Marketplace Minute News Briefing",
       "megaphone_id": "bd5ed85a-9395-11ea-9e25-9b7bcc6a824a"
+    },
+    {
+      "name": "Sold a Story",
+      "megaphone_id": "372f0d9c-3bfd-11ec-a91a-63234074389e"
     }
   ];
 const projectId = `apmg-data-warehouse`;
@@ -127,15 +131,15 @@ async function insertRowsAsStream(param) {
     console.log(`Inserted ${rows.length} rows`);
     return 'Ok';
 }
-let removeDups = async () => {
-    let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
-    const options = {
-        query: sqlQuery,
-        location: 'US'
-    };
-    const [rows] = await bigquery.query(options);
-    console.log(`Table is now ${rows.length} rows`);
-}
+// let removeDups = async () => {
+//     let sqlQuery = `CREATE OR REPLACE TABLE ${projectId}.${datasetId}.${tableId} AS SELECT id, title, pubdate, episodeType, seasonNumber, episodeNumber, summary, duration, uid, podcastId, preCount, postCount, pubdateTimezone, originalFilename, draft, podcastTitle, mainFeed, adFree FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY podcastId,id) row_number FROM ${projectId}.${datasetId}.${tableId} ) WHERE row_number = 1`;
+//     const options = {
+//         query: sqlQuery,
+//         location: 'US'
+//     };
+//     const [rows] = await bigquery.query(options);
+//     console.log(`Table is now ${rows.length} rows`);
+// }
 let getEpisodes = (program) => {
     return new Promise((resolve, reject) => {
         let dataToAdd = [];
@@ -164,7 +168,7 @@ let getEpisodes = (program) => {
         }
         request({
             'method': 'GET',
-            'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes?draft=false&per_page=500`,
+            'url': `${process.env.NETWORK_API_URL}/${program.megaphone_id}/episodes?draft=false`,
             'headers': {
                 'Token': `token="${process.env.TOKEN}"`,
                 'Authorization': `Bearer ${process.env.TOKEN}`
@@ -197,13 +201,13 @@ module.exports = (() => {
             if (datae.draft != true) {
                 insertRowsAsStream(datae).then((res) => {
                     if (res = 'Ok') {
-                        removeDups()
-                            .then(() => {
+                        // removeDups()
+                        //     .then(() => {
                                 console.log('did it');
-                            })
-                            .catch(e => {
-                                console.log(e)
-                            })
+                            // })
+                            // .catch(e => {
+                            //     console.log(e)
+                            // })
                     }
                 }).catch((err) => {
                     console.log(err);
