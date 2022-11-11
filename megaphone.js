@@ -114,6 +114,10 @@ const programs = [
     {
       "name": "Sold a Story",
       "megaphone_id": "372f0d9c-3bfd-11ec-a91a-63234074389e"
+    },
+    {
+      "name": "This Is Uncomfortable",
+      "megaphone_id": "e9e60248-d8ec-11eb-8716-27ff4700152c"
     }
   ];
 const projectId = `apmg-data-warehouse`;
