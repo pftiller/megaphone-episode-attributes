@@ -10,3 +10,5 @@ fetchEpisodes();
 app.listen(PORT, (error) => {
       console.log("listening on " + PORT + "...");
   });
+
+  module.exports = app;
