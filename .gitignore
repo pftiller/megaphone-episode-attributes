@@ -7,10 +7,14 @@
 npm-debug.log*
 
 #linter 
-.stylelintrc.json
+.styl
+
+#gcloud
+.gcloudignore
 
 #environment
 .vscode
 
 #variable
 .env
+env-vars.yaml
