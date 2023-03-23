@@ -124,6 +124,10 @@ const programs = [{
         "megaphone_id": "e9e60248-d8ec-11eb-8716-27ff4700152c"
     },
     {
+        "name": "Truth Be Told with Tonya Mosley",
+        "megaphone_id": "86967988-c414-11ed-a252-a32a1f54908b"
+    },
+    {
         "name": "YourClassical Storytime",
         "megaphone_id": "9284cf58-a6f4-11ec-9738-b757d0ec2a87"
     }
