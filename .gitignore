@@ -18,3 +18,6 @@ npm-debug.log*
 #variable
 .env
 env-vars.yaml
+
+# Ignore package-lock.json
+package-lock.json
